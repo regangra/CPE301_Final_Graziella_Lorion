@@ -126,6 +126,96 @@ void disable()
 
 ![circuiDesing](https://github.com/regangra/CPE301_Final_Graziella_Lorion/assets/26099207/c471a010-ae8c-4dfc-9e30-2bdefafdfe4d)
 
+# Cooler States
+
+The cooler continuously cycles through several states, with the state transitions triggered by the user
+or by events such as temperature changes.
+
+State Descriptions
+
+Some states include specific implementation requirements such as the use of ISR.
+
+All States - The Real Time Clock is used to report via Serial port the time of each state transition,
+and any changes to the stepper motor position for the vent.
+
+All states except disabled
+
+• Humidity and temperature are continuously monitored and reported on the LCD screen. Updates
+occur once per minute.
+
+• System responds to change in vent position control
+
+• The push button controls the system.
+
+– If the fan motor is off, it turns on, going to state IDLE or RUNNING.
+
+– If the fan motor is on, it turns off, going to the state DISABLED.
+
+Disabled
+
+• Yellow LED turns on, all other LEDs are off.
+
+• No monitoring of temperature, humidity, or water level.
+
+• The Start button is monitored with the Interrupt Service Routine.
+
+Idle
+
+• Green LED turns on, all other LEDs are off.
+
+• The exact time stamp records the transition between the states.
+
+• The water level, temperature, and humidity are continuously monitored and shown on the LCD
+screen
+
+– If the water level is less than 25 (on a scale from 0 to 255), the state will change to ERROR.
+
+– If the water level is more or equal to 25, and the temperature is above 20 degrees Celsius,
+the state will change to RUNNING.
+
+Error
+
+• Red LED turns on, all other LEDs are off.
+
+• The motor turns off and does not start regardless of the temperature.
+
+• The LCD screen displays the message: ’Error: Low Water’.
+
+- If the water level is less than 25 (on a scale from 0 to 255) and we press the RESET button
+(On/ OFF button), the state will NOT change.
+
+- If the water level is more or equal to 25, and we press the RESET button (On/OFF button),
+the state will change to IDLE.
+
+Running
+
+• Blue LED turns on, all other LEDs are off.
+
+• The motor turns on
+
+• The water level, temperature, and humidity are continuously monitored.
+
+  – If the water level is less than 25 (on a scale from 0 to 255) the state will change to ERROR
+  – If the temperature is less than 20 degrees Celsius, the state will change to IDLE.
+
+# Serial Output
+For each state, the Serial Monitor will output the code below followed by the date and time
+
+R - Running
+
+X - Error
+
+D - Disabled
+
+I - Idle
+
+'+' - Rotate Clockwise
+    
+'-' - Rotate Counterclockwise
+ 
+Example:
+![Screenshot 2023-12-10 at 18 04 37](https://github.com/regangra/CPE301_Final_Graziella_Lorion/assets/26099207/0387fa8e-b852-4685-8884-2987ca1ba6bd)
+
 
 # Video
 
