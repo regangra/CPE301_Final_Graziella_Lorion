@@ -80,8 +80,6 @@ unsigned int water;
 unsigned int potentiometerRead = 0;
 int potentiometerValue = 0;
 int newPotentiometerRead = 0;
-
-
 // Temperature Sensor Variable
 int temperature = 1;
 
@@ -118,8 +116,8 @@ void setup() {
 
   // RTC Date and Time Configuration
   int hour, minute, second, Day, Year;
-  unsigned char monthIndex;
-  unsigned char Month[12];
+  uint8_t monthIndex;
+  char Month[12];
   sscanf(__DATE__, "%s %d %d", Month, &Day, &Year);  
   sscanf(__TIME__, "%d:%d:%d", &hour, &minute, &second);
   for (monthIndex = 0; monthIndex < 12; monthIndex++) 
@@ -361,6 +359,7 @@ void printTime(){
       {
         U0putchar(Event[i]);
       }
+    RTC.read(timeStamp);
     unsigned char timeStampMonth = timeStamp.Month;
     div = (timeStampMonth / 10) + 48;
     mod = (timeStampMonth % 10) + 48;
