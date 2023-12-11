@@ -94,33 +94,103 @@ For this project, the libraries used are described below:
 
 
 # Functions
-void setup()
+# void setup()
 
-void loop()
+– Initializes Serial Port at 9600 baudrate
 
-void U0init (int U0baud)
+– Starts LCD SCreen
 
-void U0putchar(unsigned char U0pdata)
+– Initializes ADC
 
-void adc_init()
+– Sets up Stepper Motor
 
-int adc_read(unsigned int adc_channel_num)
+– Defines PK0 as input for push button
 
-ISR(TIMER1_0VF_vect) motiro port PK0
+– Enables pull-up resistor on PK0
 
-void printTime()
+– Sets up as output PH4for the water sensor, and PB0, PB1, PB2, and PB3 as for LEDs
 
-void displayTemperature()
+– Reads Water Sensor, and Temperature and Humidity Sensor once
 
-unsigned int readWater()
+– Sets up RTC Date and Time
 
-void running()
 
-void idle()
+# void loop()
 
-void error()
+– Sets up push button to toggle between ON, OFF, and Reset
 
-void disable()
+– Controls all states of the cooler (enable, disable, running, idle and error)
+
+– Controls the angles of Stepper Motor
+
+– Controls the Water Sensor and Temperature and Humidity Sensors reading for each 60
+seconds
+
+– Checks Water Level
+
+– Check Temperature and Humidity
+
+– Output on Serial Monitor all changes of states
+
+
+# void U0init (int U0baud)
+
+– Function to Initialize Serial Port
+
+
+# void U0putchar(unsigned char U0pdata)
+
+– Function to print on Serial Monitor
+
+
+# void adc init()
+
+– Function to Initialize Analog to Digital Converter
+
+
+# int adc read(unsigned int adc channel num)
+
+– Function to Read Analog Data and convert it to Digital
+
+
+# ISR(TIMER1 0VF vect)
+
+– Interrupt Routine Service to monitor push button on PK0
+
+
+# void printTime()
+
+– Function to print the time stamp on states changes
+
+
+# void displayTemperature()
+
+– Function to display Temperature and Humidity on the LCD Screen
+
+
+# unsigned int readWater()
+
+– Function to read the water level
+
+
+# void running()
+
+– Function to Run the DC Motor and Turn the Blue LED ON
+
+
+# void idle()
+
+– Function to Stop the DC Motor and Turn the Green LED ON
+
+
+# void error()
+
+– Function to Low Water Level and Red LED ON
+
+
+# void disable()
+
+– Function to Disable the System and Yellow LED ON
 
 # Circuit
 
@@ -135,7 +205,9 @@ State Descriptions
 
 Some states include specific implementation requirements such as the use of ISR.
 
-All States - The Real Time Clock is used to report via Serial port the time of each state transition,
+All States 
+
+- The Real Time Clock is used to report via Serial port the time of each state transition,
 and any changes to the stepper motor position for the vent.
 
 All states except disabled
