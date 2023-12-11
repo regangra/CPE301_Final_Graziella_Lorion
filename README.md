@@ -2,107 +2,132 @@
 Graziella Lorion
 
 # Evaporation Cooler
-Turn an LED on and off every second.
 LAST REVISION:
-12/05/2023, 06:33 AM
-This example shows the simplest thing you can do with an Arduino to see physical output: it blinks the on-board LED.
+12/10/2023, 04:33 PM
 
-Hardware Required:
+# Introduction
+In this project, we will:
 
-Arduino Board
-1 830 Tie-points breadboard
-1 extension breadboard
-1 push button
-1 LED Red
-1 LED Blue
-1 LED Green
-1 LED Yellow
-2 potentiometer
-1 1K ohm resistor
-5 330 ohm resistor
-1 Real Time Clock DS1307 module v3
-1 Water Sensor
-1 Temperature and Humidity Sensor DHT11
-1 Step Motor 28BYJ-48
-1 ULN2003 Stepper Motor Driver Module
-1 Power supply module for Arduino
-1 LCD 1602 module (with pin header)
-1 Fan blade
-1 Rotary Motor 3 to 6 V
-1 9V1A power Adapter
- wires to connect components
+• Monitor the water levels in a reservoir and print an alert when the level is too low
 
+• Monitor and display the current air temperature and humidity on an LCD screen
 
+• Start and stop a fan motor as needed when the temperature falls out of a specified range (high
+or low)
 
-Circuit
-This example uses the built-in LED that most Arduino boards have. This LED is connected to a digital pin and its number may vary from board type to board type. To make your life easier, we have a constant that is specified in every board descriptor file. This constant is LED_BUILTIN and allows you to control the built-in LED easily. Here is the correspondence between the constant and the digital pin.
+• Allow the user to use a control to adjust the angle of an output vent from the system
 
-D13 - 101
+• Allow the user to enable or disable the system using the on/off button
 
-D13 - Due
+• Record the time and date every time the motor is turned on or off. This information should be
+transmitted to a host computer (over USB).
 
-D1 - Gemma
+# Materials
+Below you can find the list of the materials used in this project. 
 
-D13 - Intel Edison
+• 1 Arduino ATMega 2560
 
-D13 - Intel Galileo Gen2
+• 1 Macbook Pro with the Arduino IDE
 
-D13 - Leonardo and Micro
+• 1 USB programming cable
 
-D13 - LilyPad
+• 2 Potentiometer
 
-D13 - LilyPad USB
+• 1 LCD (16x2) display
 
-D13 - MEGA2560
+• 1 830 Tie-points breadboard
 
-D13 - Mini
+• 1 extension breadboard
+• 1 push button
 
-D6 - MKR1000
+• 1 LED Red
 
-D13 - Nano
+• 1 LED Blue
 
-D13 - Pro
+• 1 LED Green
 
-D13 - Pro Mini
+• 1 LED Yellow
 
-D13 - UNO
+• 1 1KΩ resistor
 
-D13 - Yún
+• 5 330Ω resistor
 
-D13 - Zero
+• 1 Real Time Clock DS1307 module v3
 
-If you want to light an external LED with this sketch, you need to build this circuit, where you connect one end of the resistor to the digital pin correspondent to the LED_BUILTIN constant. Connect the long leg of the LED (the positive leg, called the anode) to the other end of the resistor. Connect the short leg of the LED (the negative leg, called the cathode) to the GND. In the diagram below we show an UNO board that has D13 as the LED_BUILTIN value.
+• 1 Water Sensor
 
-The value of the resistor in series with the LED may be of a different value than 220 ohms; the LED will light up also with values up to 1K ohm.
+• 1 Temperature and Humidity Sensor DHT11
 
-circuit
+• 1 Step Motor 28BYJ-48
 
-Schematic
-schematic
+• 1 ULN2003 Stepper Motor Driver Module
 
-Code
-After you build the circuit plug your Arduino board into your computer, start the Arduino Software (IDE) and enter the code below. You may also load it from the menu File/Examples/01.Basics/Blink . The first thing you do is to initialize LED_BUILTIN pin as an output pin with the line
+• 1 Power supply module for Arduino
 
-pinMode(LED_BUILTIN, OUTPUT);
+• 1 LCD 1602 module (with pin header)
 
-In the main loop, you turn the LED on with the line:
+• 1 Fan blade
 
-digitalWrite(LED_BUILTIN, HIGH);
+• 1 Mini DC Motor 3 to 6V
 
-This supplies 5 volts to the LED anode. That creates a voltage difference across the pins of the LED, and lights it up. Then you turn it off with the line:
+• 1 L293D H-Bridge for rotary motor
 
-digitalWrite(LED_BUILTIN, LOW);
+• 1 9V1A Power Adapter
 
-That takes the LED_BUILTIN pin back to 0 volts, and turns the LED off. In between the on and the off, you want enough time for a person to see the change, so the delay() commands tell the board to do nothing for 1000 milliseconds, or one second. When you use the delay() command, nothing else happens for that amount of time. Once you've understood the basic examples, check out the BlinkWithoutDelay example to learn how to create a delay while doing other things.
-
-Once you've understood this example, check out the DigitalReadSerial example to learn how read a switch connected to the board.
+• Jumper kit
 
 
-See Also
+# Libraries
+For this project, the libraries used are described below:
 
-Learn more
-You can find more basic tutorials in the built-in examples section.
+• LiquidCrystal.h - for the LCD
 
-You can also explore the language reference, a detailed collection of the Arduino programming language.
+• dht.h - For DH11 Temperature and Humidity sensor
 
-Last revision 2015/07/28 by SM
+• Stepper.h - for the Step Motor
+
+• Wire.h - for Real Time Clock
+
+• DS1307RTC.h - for Real Time Clock
+
+• TimeLib.h - for Real Time Clock
+
+
+# Functions
+void setup()
+
+void loop()
+
+void U0init (int U0baud)
+
+void U0putchar(unsigned char U0pdata)
+
+void adc_init()
+
+int adc_read(unsigned int adc_channel_num)
+
+ISR(TIMER1_0VF_vect) motiro port PK0
+
+void printTime()
+
+void displayTemperature()
+
+unsigned int readWater()
+
+void running()
+
+void idle()
+
+void error()
+
+void disable()
+
+# Circuit
+
+![circuiDesing](https://github.com/regangra/CPE301_Final_Graziella_Lorion/assets/26099207/c471a010-ae8c-4dfc-9e30-2bdefafdfe4d)
+
+
+# Video
+
+
+
