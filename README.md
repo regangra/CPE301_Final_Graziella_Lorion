@@ -291,7 +291,7 @@ Example:
 
 # Video
 
-[Test Idle and Running, and Disable](https://youtu.be/Y5z2uhWGDNg)
+[Test Idle, Running, and Disable](https://youtu.be/Y5z2uhWGDNg)
 
 [Test Running, Error, and Disable](https://youtu.be/8PdY1p2rPDE)
 
