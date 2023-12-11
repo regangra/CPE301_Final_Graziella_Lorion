@@ -129,5 +129,5 @@ void disable()
 
 # Video
 
-
+Three videos will be uploaded on CANVAS. It was not possible to upload the video here due the size.
 
