@@ -153,7 +153,7 @@ seconds
 – Function to Read Analog Data and convert it to Digital
 
 
-# ISR(TIMER1 0VF vect)
+# ISR(PCINT0 vect)
 
 – Interrupt Routine Service to monitor push button on PK0
 
@@ -240,9 +240,9 @@ Idle
 • The water level, temperature, and humidity are continuously monitored and shown on the LCD
 screen
 
-– If the water level is less than 25 (on a scale from 0 to 255), the state will change to ERROR.
+– If the water level is less than 63 (on a scale from 0 to 255), the state will change to ERROR.
 
-– If the water level is more or equal to 25, and the temperature is above 20 degrees Celsius,
+– If the water level is more or equal to 63, and the temperature is above 20 degrees Celsius,
 the state will change to RUNNING.
 
 Error
@@ -253,10 +253,10 @@ Error
 
 • The LCD screen displays the message: ’Error: Low Water’.
 
-- If the water level is less than 25 (on a scale from 0 to 255) and we press the RESET button
+- If the water level is less than 63 (on a scale from 0 to 255) and we press the RESET button
 (On/ OFF button), the state will NOT change.
 
-- If the water level is more or equal to 25, and we press the RESET button (On/OFF button),
+- If the water level is more or equal to 63, and we press the RESET button (On/OFF button),
 the state will change to IDLE.
 
 Running
@@ -267,7 +267,7 @@ Running
 
 • The water level, temperature, and humidity are continuously monitored.
 
-  – If the water level is less than 25 (on a scale from 0 to 255) the state will change to ERROR
+  – If the water level is less than 63 (on a scale from 0 to 255) the state will change to ERROR
   – If the temperature is less than 20 degrees Celsius, the state will change to IDLE.
 
 # Serial Output
@@ -296,3 +296,6 @@ Example:
 [Test Running, Error, and Disable](https://youtu.be/8PdY1p2rPDE)
 
 [Test Idle, Error, and Disable](https://youtu.be/eEYD23jZKs4)
+
+# Report
+[Report](https://www.overleaf.com/read/vhhmvnbhzzxf#6dfd8b)
