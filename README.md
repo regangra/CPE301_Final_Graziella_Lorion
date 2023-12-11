@@ -291,5 +291,8 @@ Example:
 
 # Video
 
-Three videos will be uploaded on CANVAS. It was not possible to upload the video here due the size.
+[Test Idle and Running, and Disable](https://youtu.be/Y5z2uhWGDNg)
 
+[Test Running, Error, and Disable](https://youtu.be/8PdY1p2rPDE)
+
+[Test Idle, Error, and Disable](https://youtu.be/eEYD23jZKs4)
