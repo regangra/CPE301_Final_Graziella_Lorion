@@ -28,13 +28,10 @@ volatile unsigned char *myUCSR0B = (unsigned char *)0xC1;
 volatile unsigned char *myUCSR0C = (unsigned char *)0xC2;
 volatile unsigned int  *myUBRR0  = (unsigned int *) 0xC4;
 volatile unsigned char *myUDR0   = (unsigned char *)0xC6;
-// Delay Registers
-volatile unsigned char *myTCCR1A  = (unsigned char *) 0x80; // Timer/Counter 1 Control registers
-volatile unsigned char *myTCCR1B  = (unsigned char *) 0x81; // Timer/Counter 1 Control registers
-volatile unsigned char *myTCCR1C  = (unsigned char *) 0x82; // Timer/Counter 1 Control registers
-volatile unsigned char *myTIMSK1  = (unsigned char *) 0x6F; // Timer Counter 1 Interrupt Mask
-volatile unsigned int  *myTCNT1   = (unsigned  int *) 0x84; // Timer Counter 1
-volatile unsigned char *myTIFR1   = (unsigned char *) 0x36; // Timer Interrupt Flag Register
+// Pin Change Interrupt Request Registers
+volatile unsigned char *myPCMSK0  = (unsigned char *)0x6B;
+volatile unsigned char *myPCICR   = (unsigned char *)0x68;
+volatile unsigned char *myEIMSK   = (unsigned char *)0x3D;
 // ADC addresses 
 volatile unsigned char* my_ADMUX  = (unsigned char*) 0x7C;
 volatile unsigned char* my_ADCSRB = (unsigned char*) 0x7B;
@@ -44,6 +41,10 @@ volatile unsigned int* my_ADC_DATA = (unsigned int*) 0x78;
 volatile unsigned char* port_b = (unsigned char *) 0x25;
 volatile unsigned char* ddr_b  = (unsigned char *) 0x24;
 volatile unsigned char* pin_b  = (unsigned char *) 0x23;
+// Define Port D Register Pointers
+volatile unsigned char* port_d = (unsigned char *) 0x2B;
+volatile unsigned char* ddr_d  = (unsigned char *) 0x2A;
+volatile unsigned char* pin_d  = (unsigned char *) 0x29;
 // Define Port G Register Pointers
 volatile unsigned char* port_g = (unsigned char*) 0x34;
 volatile unsigned char* ddr_g  = (unsigned char*) 0x33;
@@ -102,14 +103,17 @@ void setup() {
   adc_init();
   // Set Stepper Speed
   myStepper.setSpeed(200);
-  // Clear PK0 to INPUT
-  *ddr_k &= 0xFE;
-  // Enable the pullup resistor on PK0
-  *port_k |= 0x01;
+  // PK0 as Output
+  *ddr_k &= 0x01;
+  // Enable the pullup resistor on INT2
+  *port_d |= 0x04;
   // Set PH4 to OUTPUT
   *ddr_h |= 0x10;
   // Set LEDs PB0, PB1, PB2, and PB3 as OUTPUT
   *ddr_b |= 0x0F;
+  // Enable External Interrupt Enable INT2
+  *myPCMSK0 |= 0x04;
+  *myPCICR |= 0x01;
   // Read sensors once
   water = readWater();
   temperature = DHT.read11(DHT11_PIN);
@@ -141,10 +145,7 @@ void loop() {
   if(*pin_k & 0x01)
   {
     // generate delay to get just one value
-    while(*pin_k & 0x01)
-    {
-      delay(20);
-    }
+    while(*pin_k & 0x01){}
     enable++;
     // Print Event
     if(enable % 2 == 0){
@@ -238,7 +239,7 @@ void loop() {
         {
           while(*pin_k & 0x01)
           {
-            delay(10);
+            //delay(10);
           }
           water = readWater();
         }
@@ -324,30 +325,11 @@ int adc_read(unsigned int adc_channel_num)
   // return the result in the ADC data register
   return *my_ADC_DATA;
 }
-// Interrupt Routine to Monitor Push Button
-ISR(TIMER1_OVF_vect){
-  TCNT1 = (-1600);
-  // calculate period
-  double period = 1.0/double(1000);
-  // 100% duty cycle
-  double half_period = period;
-  // clock period for Arduino 16MHz clock
-  double clk_period = 0.0000000625;
-  // calculate ticks
-  unsigned int ticks = half_period / clk_period;
-  // Stop the Timer
-  *myTCCR1B &= 0xF8;
-  // Load the Count
-  *myTCNT1 = (unsigned int) (65535 - ticks);
-  // Start the Timer
-  *myTCCR1B |= 0x01;
-  // if it's not the STOP amount
-  if(ticks != 65535)
-  {
-    // XOR to toggle PK0
-    *port_k ^= 0x01;
-  }
+// Interrupt Service Routine Pin Change Interrupt Request 0
+ISR (PCINT0_vect){
+  *port_k &= 0xFE;
 }
+
 // Function to Print Time of Events
 void printTime(){
     unsigned char Event[] = {' ','e','v','e','n','t',' ','=',' '};
@@ -461,10 +443,11 @@ void error(){
   lcd.setCursor(0,1);
   lcd.print("Low Water");
 }
+
 // Function to Disable the System and Yellow LED ON
 void disable(){
   lcd.clear();
-  *port_k &= 0xFE;
+  //*port_k &= 0xFE;
   // blue, green, red led OFF
   *port_b &= 0xF4;
   // yellow led ON
